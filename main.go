@@ -18,6 +18,16 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 }
 
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		// don't forget about the order of calling these methods
+		w.Header().Set("Allow", http.MethodPost)
+		// the http.DetectContentType() function can't distinguish JSON. So, you should set it manually:
+		//w.Header().Set("Content-Type", "application/json")
+		//w.WriteHeader(http.StatusMethodNotAllowed)
+		//w.Write([]byte("Method Not Allowed"))
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
 	w.Write([]byte("Create a new snippet..."))
 }
 

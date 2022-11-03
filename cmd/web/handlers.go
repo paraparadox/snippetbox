@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/paraparadox/snippetbox/internal/models"
-	"html/template"
 	"net/http"
 	"strconv"
 )
@@ -15,22 +14,32 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	files := []string{
-		"./ui/html/base.tmpl",
-		"./ui/html/partials/nav.tmpl",
-		"./ui/html/pages/home.tmpl",
-	}
-
-	ts, err := template.ParseFiles(files...)
+	snippets, err := app.snippets.Latest()
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	err = ts.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		app.serverError(w, err)
+	for _, snippet := range snippets {
+		fmt.Fprintf(w, "%+v\n", snippet)
 	}
+
+	//files := []string{
+	//	"./ui/html/base.tmpl",
+	//	"./ui/html/partials/nav.tmpl",
+	//	"./ui/html/pages/home.tmpl",
+	//}
+	//
+	//ts, err := template.ParseFiles(files...)
+	//if err != nil {
+	//	app.serverError(w, err)
+	//	return
+	//}
+	//
+	//err = ts.ExecuteTemplate(w, "base", nil)
+	//if err != nil {
+	//	app.serverError(w, err)
+	//}
 }
 
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {

@@ -17,5 +17,5 @@ func (app *application) routes() http.Handler {
 	// mux.HandleFunc("/really/serious", someFunc)
 	// mux.HandleFunc("/really/serious/", otherFunc)
 
-	return app.logRequest(secureHeaders(mux))
+	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
 }

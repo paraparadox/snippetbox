@@ -19,4 +19,16 @@ create table sessions
     data   blob         not null,
     expiry timestamp(6) not null
 );
+
+create table users
+(
+    id integer not null primary key auto_increment,
+    name varchar(255) not null,
+    email varchar(255) not null,
+    hashed_password char(60) not null,
+    created datetime not null
+);
+
+alter table users add constraint users_uc_email unique (email);
+
 -- use the source command in mysql cli to run these statements

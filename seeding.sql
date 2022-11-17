@@ -1,3 +1,5 @@
+use snippetbox;
+
 INSERT INTO snippets (title, content, created, expires)
 VALUES ('An old silent pond',
         'An old silent pond...\nA frog jumps into the pond,\nsplash! Silence again.\n\n– Matsuo Bashō',

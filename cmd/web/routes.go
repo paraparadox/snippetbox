@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
+	"github.com/paraparadox/snippetbox/ui"
 	"net/http"
 )
 
@@ -13,7 +14,11 @@ func (app *application) routes() http.Handler {
 		app.notFound(w)
 	})
 
-	router.ServeFiles("/static/*filepath", http.Dir("./ui/static/"))
+	fileServer := http.FileServer(http.FS(ui.Files))
+
+	router.Handler(http.MethodGet, "/static/*filepath", fileServer)
+
+	//router.ServeFiles("/static/*filepath", http.Dir("./ui/static/"))
 
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 

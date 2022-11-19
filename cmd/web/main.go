@@ -18,6 +18,7 @@ import (
 )
 
 type application struct {
+	debug          bool
 	errorLog       *log.Logger
 	infoLog        *log.Logger
 	snippets       models.SnippetModelInterface
@@ -30,6 +31,7 @@ type application struct {
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	dsn := flag.String("dsn", "root:0dmen@/snippetbox?parseTime=true", "MySQL data source name")
+	debug := flag.Bool("debug", false, "Run the app in debug mode")
 	flag.Parse()
 	// another way is environment variables:
 	// addr := os.Getenv("SNIPPETBOX_ADDR")
@@ -57,6 +59,7 @@ func main() {
 	sessionManager.Cookie.Secure = true
 
 	app := &application{
+		debug:          *debug,
 		errorLog:       errorLog,
 		infoLog:        infoLog,
 		snippets:       &models.SnippetModel{DB: db},

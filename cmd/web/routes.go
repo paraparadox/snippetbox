@@ -35,7 +35,7 @@ func (app *application) routes() http.Handler {
 
 	router.Handler(http.MethodGet, "/snippet/create", protected.ThenFunc(app.snippetCreate))
 	router.Handler(http.MethodPost, "/snippet/create", protected.ThenFunc(app.snippetCreatePost))
-	router.Handler(http.MethodGet, "/account/view", dynamic.ThenFunc(app.accountView))
+	router.Handler(http.MethodGet, "/account/view", protected.ThenFunc(app.accountView))
 	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogoutPost))
 
 	// don't forget about 2 types of URL patterns:
